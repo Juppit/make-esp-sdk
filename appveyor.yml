@@ -1,0 +1,39 @@
+# Author: Peter Dobler (@Juppit)
+# Last edit: 19.03.2020
+version: 0.1.{build}
+image: Visual Studio 2017
+environment:
+  # Path for appveyor install and build_script
+  PATH: C:\msys64\usr\bin
+  matrix:
+  - MSYSTEM: Cygwin64
+    BUILD: Cygwin64
+    BUILD_TARGET: gdb
+#  - MSYSTEM: MINGW64
+#    BUILD: Mingw64
+#    BUILD_TARGET: gdb
+#  - MSYSTEM: Cygwin64
+#    BUILD: Cygwin64
+#    BUILD_TARGET: all
+#  - MSYSTEM: MINGW64
+#    BUILD: Mingw64
+#    BUILD_TARGET: all
+  CHERE_INVOKING: 1
+build_script:
+  - if "%BUILD_TARGET%" == "all" bash --login -c "make USE_DISTRIB=y -j$(expr $(nproc) + 1)"
+  - if "%BUILD_TARGET%" == "gdb" bash --login -c "make USE_DISTRIB=y USE_GDB=y gdb"
+#  - ls -al distrib
+on_failure:
+  - tail -100 distrib/%BUILD%-error.log
+test: off
+artifacts:
+- path: distrib/%BUILD%*
+  name: builds
+deploy:
+- provider: GitHub
+  # create Personal Access Token at https://github.com/settings/tokens
+  # and encrypt it on https://ci.appveyor.com/tools/encrypt
+  auth_token:
+    secure: 8vDpPaKNVqNmK3teDnIVZ9cIyjQ60vweSlhWtnC0GTtigKl+TMIv6mv6Zhwos4Q9
+  artifact: builds
+  description: "Release from AppVeyor"

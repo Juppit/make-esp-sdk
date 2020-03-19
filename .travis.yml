@@ -1,0 +1,88 @@
+language: shell
+os: linux
+dist: xenial
+jobs:
+  include:
+  - os: linux
+    dist: xenial
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - bsdtar gperf texinfo help2man gcc-multilib g++-multilib
+    env: GDB
+    script:
+    - travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb
+after_failure:
+- tail -50 distrib/*-error.log
+before_script:
+- cd $TRAVIS_BUILD_DIR
+before_install:
+- unset CC
+- unset CXX
+- |-
+  case $TRAVIS_OS_NAME in
+      windows)
+        [[ ! -f C:/tools/msys64/msys2_shell.cmd ]] && rm -rf C:/tools/msys64
+        choco upgrade --no-progress -y msys2
+        export msys2='cmd //C RefreshEnv.cmd '
+        export msys2+='& set MSYS=winsymlinks:nativestrict '
+        export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
+        export shell="$msys2 -mingw64 -full-path -here -c \$\* --"
+        export msys2+=" -msys2 -c \$\* --"
+        $msys2 pacman --sync --noconfirm --needed \
+              autoconf \
+              automake \
+              mingw-w64-x86_64-libtool \
+              mingw-w64-x86_64-toolchain \
+              mingw-w64-x86_64-pkg-config pkg-config \
+              unzip bsdtar wget patch bison gperf m4 texinfo help2man
+        taskkill //IM gpg-agent.exe //F
+        export MAKE=mingw32-make
+        $msys2 pacman -Ss sed
+        $msys2 sed --version
+        ;;
+    esac
+before_cache:
+- |-
+  case $TRAVIS_OS_NAME in
+    windows)
+      $msys2 pacman --sync --clean --noconfirm
+      ;;
+  esac
+cache:
+- |-
+  case $TRAVIS_OS_NAME in
+    windows)
+      directories:
+      - $HOME/AppData/Local/Temp/chocolatey
+      - /C/tools/msys64
+      ;;
+  esac
+before_deploy:
+- ls -al distrib/*
+- if [ "$TRAVIS_OS_NAME" == "mingw"   ]; then DEPLOY_FILE=Mingw-64-xtensa-lx106-elf.tar.gz;
+  fi
+- if [ "$TRAVIS_OS_NAME" == "linux"   ]; then DEPLOY_FILE=Linux-64-xtensa-lx106-elf.tar.gz;
+  fi
+- if [ "$TRAVIS_OS_NAME" == "osx"     ]; then DEPLOY_FILE=MacOS-64-xtensa-lx106-elf.tar.gz;
+  fi
+- if [ "$TRAVIS_OS_NAME" == "windows" ]; then DEPLOY_FILE=Windows-64-xtensa-lx106-elf.tar.gz;
+  fi
+# deploy see:
+# https://github.com/travis-ci/travis.rb#installation
+# https://www.victorhurdugaci.com/github-releases-travis
+deploy:
+  skip_cleanup: true
+  provider: releases
+  token:
+    secure: UX0FoJXGPLNILZ8A509WBlW6xJfNk71GvlwTxOLw2Bdme75PaXnRHliO/pQIpVz3cNnoAcGyOMRSr8OhuaND1Fa2mkpOlrTi6bEwgUpO9VwrZQbBhY2FGckbnDfcpBliJE8JeRZpTgf5KEpJc6TOq16FZrtMbYbXInN55XOqq2qnXiXofmb+MwHNbiEuiqtiqkbQVIdjOsWO0cXjrDhLzPSbQmPtqhnZgZ4KdRl5wcC8Rv+W64QLIm0aOIqTusqRruCQcBbAdNwNW4w+lAv6YTdJbYiAn/oFydLd6LN55NVV2J7cROxLgsgpZaD1NMunWg41hL7Br4FPPaZFztgLGAYuGIrP1DLk4jzmpgsqLIh7oCCvW7tfgcpAXE8Rb7HMwkCoo4gen3zMpYL1oaLcgBh7ojPm2cnvMaW1cAYNY0StIEbGLR5jmE2vfTpISsqQZ6xaaoDQSe5Z1toulhgUOqQ+34Gz57OMLZn7hPNqXhIK5wYTvqhudQ0WdD6rc+d7Hwqmrh34YBnsK/B69TYs3uZL1vMOjxsB/BfpAsOpg0h+w140LyKN6Is0qgMmdw0oqrS9tEnF8BHLXi0DOQtqrrDomz4Ws4PtpI4kq+wWwVCgRa+uvkJUYmDOpkh5K7Dp+UtLTFXR2WxYBvNPIhoCiky501Fi8VuPGLpQL5IfW90=
+  file_glob: on # enable wildcarts
+  overwrite: on
+  file: 'distrib/*'
+  on:
+    repo: Juppit/make-esp-sdk
+    tags: true # prevent untagged releases
+notifications:
+  email: false
