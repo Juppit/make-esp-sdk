@@ -14,6 +14,25 @@ jobs:
     env: GDB
     script:
     - travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb
+  - os: linux
+    dist: xenial
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - bsdtar gperf texinfo help2man gcc-multilib g++-multilib
+    env: ALL
+    script:
+    - travis_wait 55 make USE_DISTRIB=y all
+  - os: osx
+    env: GDB
+    script:
+    - travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb
+  - os: osx
+    env: ALL
+    script:
+    - travis_wait 55 make USE_DISTRIB=y all
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
@@ -62,14 +81,14 @@ cache:
   esac
 before_deploy:
 - ls -al distrib/*
-- if [ "$TRAVIS_OS_NAME" == "mingw"   ]; then DEPLOY_FILE=Mingw-64-xtensa-lx106-elf.tar.gz;
-  fi
-- if [ "$TRAVIS_OS_NAME" == "linux"   ]; then DEPLOY_FILE=Linux-64-xtensa-lx106-elf.tar.gz;
-  fi
-- if [ "$TRAVIS_OS_NAME" == "osx"     ]; then DEPLOY_FILE=MacOS-64-xtensa-lx106-elf.tar.gz;
-  fi
-- if [ "$TRAVIS_OS_NAME" == "windows" ]; then DEPLOY_FILE=Windows-64-xtensa-lx106-elf.tar.gz;
-  fi
+# - if [ "$TRAVIS_OS_NAME" == "mingw"   ]; then DEPLOY_FILE=Mingw-64-xtensa-lx106-elf.tar.gz;
+  # fi
+# - if [ "$TRAVIS_OS_NAME" == "linux"   ]; then DEPLOY_FILE=Linux-64-xtensa-lx106-elf.tar.gz;
+  # fi
+# - if [ "$TRAVIS_OS_NAME" == "osx"     ]; then DEPLOY_FILE=MacOS-64-xtensa-lx106-elf.tar.gz;
+  # fi
+# - if [ "$TRAVIS_OS_NAME" == "windows" ]; then DEPLOY_FILE=Windows-64-xtensa-lx106-elf.tar.gz;
+  # fi
 # deploy see:
 # https://github.com/travis-ci/travis.rb#installation
 # https://www.victorhurdugaci.com/github-releases-travis
