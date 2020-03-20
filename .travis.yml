@@ -83,5 +83,6 @@ deploy:
   file: distrib/*
   on:
     repo: Juppit/make-esp-sdk
+    all_branches: true
 notifications:
   email: false
