@@ -7,32 +7,24 @@ jobs:
     dist: xenial
     addons:
       apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - bsdtar gperf texinfo help2man gcc-multilib g++-multilib
+        sources: ubuntu-toolchain-r-test
+        packages: bsdtar gperf texinfo help2man gcc-multilib g++-multilib
     env: GDB
-    script:
-    - travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb
+    script: ['travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb']
   - os: linux
     dist: xenial
     addons:
       apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - bsdtar gperf texinfo help2man gcc-multilib g++-multilib
+        sources: ubuntu-toolchain-r-test
+        packages: bsdtar gperf texinfo help2man gcc-multilib g++-multilib
     env: ALL
-    script:
-    - travis_wait 55 make USE_DISTRIB=y all
+    script: ['travis_wait 55 make USE_DISTRIB=y all']
   - os: osx
     env: GDB
-    script:
-    - travis_wait 25 make USE_DISTRIB=y USE_GDB=y gdb
+    script: ['travis_wait 35 make USE_DISTRIB=y USE_GDB=y gdb']
   - os: osx
     env: ALL
-    script:
-    - travis_wait 55 make USE_DISTRIB=y all
+    script: ['travis_wait 55 make USE_DISTRIB=y all']
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
