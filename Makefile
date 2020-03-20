@@ -4,7 +4,7 @@
 # Credits to Paul Sokolovsky (@pfalcon) for esp-open-sdk
 # Credits to Ivan Grokhotkov (@igrr) for compiler options (NLX_OPT) and library modifications
 #
-# Last edit: 19.03.2020
+# Last edit: 20.03.2020
 
 #*******************************************
 #************** configuration **************
@@ -243,6 +243,11 @@ OUTPUT_DATE = date +"%Y-%m-%d %X"
 # Log file
 BUILD_LOG = $(DIST_DIR)/$(BUILD_OS)-build.log
 ERROR_LOG = $(DIST_DIR)/$(BUILD_OS)-error.log
+
+ifeq ($(USE_GDB),y)
+  BUILD_LOG = $(DIST_DIR)/$(BUILD_OS)-$(GDB)-build.log
+  ERROR_LOG = $(DIST_DIR)/$(BUILD_OS)-$(GDB)-error.log
+endif
 
 GNU_URL    = https://ftp.gnu.org/gnu
 GNUGCC_URL = https://gcc.gnu.org/pub/gcc/infrastructure
