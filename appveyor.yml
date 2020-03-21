@@ -1,10 +1,13 @@
 # Author: Peter Dobler (@Juppit)
-# Last edit: 19.03.2020
-version: 0.1.{build}
+# Last edit: 21.03.2020
+#version: 0.1.{build}
+version: '0.9.0'
 image: Visual Studio 2017
 environment:
   # Path for appveyor install and build_script
   PATH: C:\msys64\usr\bin
+  CCACHE_DIR: "%APPVEYOR_BUILD_FOLDER%\\.ccache"
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   matrix:
   - MSYSTEM: Cygwin64
     BUILD: Cygwin64
@@ -19,6 +22,8 @@ environment:
 #    BUILD: Mingw64
 #    BUILD_TARGET: all
   CHERE_INVOKING: 1
+cache:
+  - .ccache
 build_script:
   - if "%BUILD_TARGET%" == "all" bash --login -c "make USE_DISTRIB=y -j$(expr $(nproc) + 1)"
   - if "%BUILD_TARGET%" == "gdb" bash --login -c "make USE_DISTRIB=y USE_GDB=y gdb"

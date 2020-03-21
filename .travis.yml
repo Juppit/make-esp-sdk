@@ -28,7 +28,10 @@ jobs:
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
-- cd $TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR
+  - ccache -s
+  - ccache --set-config=compression=true
+after_script: ccache -s # show ccache stats
 before_install:
 - unset CC
 - unset CXX
