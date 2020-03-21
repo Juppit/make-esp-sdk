@@ -28,10 +28,10 @@ jobs:
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
-#  - ccache -s
-#  - ccache --set-config=compression=true
+  - ccache -s
+  - ccache --set-config=compression=true
   - cd $TRAVIS_BUILD_DIR
-#after_script: ccache -s # show ccache stats
+after_script: ccache -s # show ccache stats
 before_install:
 - unset CC
 - unset CXX
@@ -56,6 +56,10 @@ before_install:
         export MAKE=mingw32-make
         $msys2 pacman -Ss sed
         $msys2 sed --version
+        ;;
+      osx)
+        - brew install ccache
+        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         ;;
     esac
 before_cache:
