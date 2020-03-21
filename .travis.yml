@@ -58,8 +58,8 @@ before_install:
         $msys2 sed --version
         ;;
       osx)
-        - brew install ccache
-        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        brew install ccache
+        export PATH="/usr/local/opt/ccache/libexec:$PATH"
         ;;
     esac
 before_cache:
