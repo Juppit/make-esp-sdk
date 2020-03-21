@@ -32,7 +32,8 @@ on_failure:
   - tail -100 distrib/%BUILD%-error.log
 test: off
 artifacts:
-- path: distrib/%BUILD%*
+#- path: distrib/%BUILD%*.tar.gz
+  path: distrib/*.tar.gz
   name: builds
 deploy:
 - provider: GitHub
@@ -40,5 +41,5 @@ deploy:
   # and encrypt it on https://ci.appveyor.com/tools/encrypt
   auth_token:
     secure: 8vDpPaKNVqNmK3teDnIVZ9cIyjQ60vweSlhWtnC0GTtigKl+TMIv6mv6Zhwos4Q9
-  artifact: builds
+  #artifact: builds
   description: "Release from AppVeyor"

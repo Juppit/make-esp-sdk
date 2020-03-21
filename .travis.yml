@@ -87,7 +87,7 @@ deploy:
     secure: LVi66iBI7R8Z4vCQlPe4eBR4rOkopbymIRb6RS5PdRyD+rZGi+oF4UVlqGkmrR/07b86sG1hAHYKLZpXwWOWJG+Gzor3WsncaQJVbo9uiXx51lkATiDhppLMk9Uhgox5hUqk6OrlThM9nfz5EgeHj4pNxUBYPNmf+ZCWINBSTKdkjZkWJQTdzX73UhaUtRAqljM6oEGkNALFwGTbMfkVQKG1jMX5x/i/bkslMhI3uHQOy1N+HvVwd+W+QBlx07OWfT2FC0pRF4CS0uMt1gbGbua8gT0DRz633Ob/2EytngiSbYfUPFEZ5La/hydpMt377gY7VLRcLFiDsZNoEBxGMoDrF2F5SiT/ARy3/OJbuC0ffPEfLtDlD0bBHQdXEsHhoADfDf4ou9voulxg33RmkDGuByh8rHirbUpaZdYy5lcw9s4haFaaS1pWNkfBBR3bmlYKKyu411KJWidmN4Scvu4uMUb0U7/UhJKJWB8q0nsHkJ6WoIvFraKdXQm+SHeVGyT4y4ZHqBKU8H6i9aNT5NEn2fvxS1Xutq2Yuz1KbSoi5cxMYry0XydTr1T0sadN+gEod11MiXx3fSiFxhfL3Ywbril1gh+AFo812oLXbPPB3DbLC02fmpIsJTn1ILHkPFryIDC+PuVsoyGTmpJxrNmT9hoBQ+aX1p+hreghoZE=
   file_glob: on # enable wildcarts
   overwrite: on
-  file: distrib/*
+  file: distrib/*.tar.gz
   on:
     repo: Juppit/make-esp-sdk
     all_branches: true
