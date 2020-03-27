@@ -29,7 +29,7 @@ build_script:
   - if "%BUILD_TARGET%" == "gdb" bash --login -c "make USE_DISTRIB=y USE_GDB=y gdb"
 #  - ls -al distrib
 on_failure:
-  - tail -100 distrib/%BUILD%-error.log
+  - tail -100 distrib/*-error.log
 test: off
 artifacts:
 #- path: distrib/%BUILD%*.tar.gz

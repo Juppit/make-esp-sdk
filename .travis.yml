@@ -24,7 +24,7 @@ jobs:
     script: ['travis_wait 35 make USE_DISTRIB=y USE_GDB=y gdb']
   - os: osx
     env: ALL
-    script: ['travis_wait 59 make USE_DISTRIB=y all']
+    script: ['travis_wait 85 make USE_DISTRIB=y all']
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
