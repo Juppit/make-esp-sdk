@@ -1,4 +1,4 @@
-language: shell
+language: c
 os: linux
 dist: xenial
 jobs:
@@ -31,8 +31,8 @@ jobs:
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
-  - ccache -s
-  - ccache --set-config=compression=true
+  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then ccache -s; fi
+  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then ccache --set-config=compression=true; fi
   - cd $TRAVIS_BUILD_DIR
 after_script: ccache -s # show ccache stats
 before_install:
