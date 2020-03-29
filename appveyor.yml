@@ -9,18 +9,18 @@ environment:
   CCACHE_DIR: "%APPVEYOR_BUILD_FOLDER%\\.ccache"
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   matrix:
-  - MSYSTEM: Cygwin64
-    BUILD: Cygwin64
-    BUILD_TARGET: gdb
+#  - MSYSTEM: Cygwin64
+#    BUILD: Cygwin64
+#    BUILD_TARGET: gdb
 #  - MSYSTEM: MINGW64
 #    BUILD: Mingw64
 #    BUILD_TARGET: gdb
-  - MSYSTEM: Cygwin64
-    BUILD: Cygwin64
-    BUILD_TARGET: all
-#  - MSYSTEM: MINGW64
-#    BUILD: Mingw64
+#  - MSYSTEM: Cygwin64
+#    BUILD: Cygwin64
 #    BUILD_TARGET: all
+  - MSYSTEM: MINGW64
+    BUILD: Mingw64
+    BUILD_TARGET: all
   CHERE_INVOKING: 1
 cache:
   - .ccache
