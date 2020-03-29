@@ -27,7 +27,7 @@ jobs:
     # script: ['travis_wait 90 make USE_DISTRIB=y all']
   - os: windows
     env: ALL
-    script: ['travis_wait 90 make USE_DISTRIB=y all']
+    script: ['travis_wait 90 $shell make USE_DISTRIB=y all']
 after_failure:
 - tail -50 distrib/*-error.log
 before_script:
